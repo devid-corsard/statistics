@@ -5,15 +5,28 @@ import { HealthCheckModule } from './health_check/health_check.module';
 import { ConfigModule } from '@nestjs/config';
 import { StrikesModule } from './strikes/strikes.module';
 import { WeaponsModule } from './weapons/weapons.module';
-import { DatabaseModule } from './database/database.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             expandVariables: true,
         }),
+        TypeOrmModule.forRoot({
+            type: 'postgres',
+            host: process.env.PG_HOST,
+            port: +process.env.PG_PORT,
+            username: process.env.PG_USERNAME,
+            password: process.env.PG_PASSWORD,
+            database: process.env.TEST
+                ? crypto.randomUUID().toString()
+                : process.env.PG_DBNAME,
+            entities: [],
+            synchronize: true,
+            dropSchema: true,
+            autoLoadEntities: true,
+        }),
         HealthCheckModule,
-        DatabaseModule,
         StrikesModule,
         WeaponsModule,
     ],

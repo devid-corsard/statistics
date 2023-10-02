@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { StrikesService } from './strikes.service';
 import { StrikesController } from './strikes.controller';
-import { DatabaseModule } from '../database/database.module';
-import { strikesProviders } from './strikes.providers';
 import { WeaponsModule } from '../weapons/weapons.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Strike } from './strike.entity';
 
 @Module({
-    imports: [DatabaseModule, WeaponsModule],
+    imports: [TypeOrmModule.forFeature([Strike]), WeaponsModule],
     controllers: [StrikesController],
-    providers: [...strikesProviders, StrikesService],
+    providers: [StrikesService],
 })
 export class StrikesModule {}

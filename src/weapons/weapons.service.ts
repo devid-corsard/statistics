@@ -1,15 +1,15 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateWeaponDto } from './dto/create-weapon.dto';
 import { UpdateWeaponDto } from './dto/update-weapon.dto';
-import { WEAPONS_REPOSITORY } from '../app.constants';
 import { Repository } from 'typeorm';
-import { Weapon } from './entities/weapon.entity';
+import { Weapon } from './weapon.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class WeaponsService {
     constructor(
-        @Inject(WEAPONS_REPOSITORY)
-        private weaponsRepository: Repository<Weapon>,
+        @InjectRepository(Weapon)
+        private readonly weaponsRepository: Repository<Weapon>,
     ) {}
 
     async create(dto: CreateWeaponDto) {

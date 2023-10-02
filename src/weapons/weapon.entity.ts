@@ -1,4 +1,4 @@
-import { Strike } from '../../strikes/entities/strike.entity';
+import { Strike } from '../strikes/strike.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()

@@ -6,6 +6,6 @@ async function bootstrap() {
     app.setGlobalPrefix('api', {
         exclude: ['health_check'],
     });
-    await app.listen(16000);
+    await app.listen(process.env.PORT);
 }
 bootstrap();

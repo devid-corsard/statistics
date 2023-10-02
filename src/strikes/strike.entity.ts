@@ -1,4 +1,4 @@
-import { Weapon } from '../../weapons/entities/weapon.entity';
+import { Weapon } from '../weapons/weapon.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
