@@ -6,15 +6,15 @@ export class Strike {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(() => Weapon, (w) => w.id)
-    name: string;
-
     @Column('date')
     date: string;
 
     @Column('int')
     launched_count: number;
 
-    @Column('int')
+    @Column('int', { nullable: true, default: 0 })
     intercepted: number;
+
+    @ManyToOne(() => Weapon, (w) => w.strikes)
+    weapon: Weapon;
 }

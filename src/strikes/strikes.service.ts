@@ -1,26 +1,51 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateStrikeDto } from './dto/create-strike.dto';
 import { UpdateStrikeDto } from './dto/update-strike.dto';
+import { STRIKES_REPOSITORY } from '../app.constants';
+import { Strike } from './entities/strike.entity';
+import { Repository } from 'typeorm';
+import { WeaponsService } from '../weapons/weapons.service';
 
 @Injectable()
 export class StrikesService {
-    create(createStrikeDto: CreateStrikeDto) {
-        return 'This action adds a new strike';
+    constructor(
+        @Inject(STRIKES_REPOSITORY)
+        private strikesRepository: Repository<Strike>,
+        private weaponsService: WeaponsService,
+    ) {}
+    async create(dto: CreateStrikeDto) {
+        let newStrike = this.strikesRepository.create(dto);
+        let weapon = await this.weaponsService.findOne(dto.weapon_id);
+        newStrike.weapon = weapon;
+        const res = await this.strikesRepository.save(newStrike);
+        console.log(newStrike, res);
+        return newStrike.id;
     }
 
-    findAll() {
-        return `This action returns all strikes`;
+    async findAll() {
+        const strikes = await this.strikesRepository.find({
+            order: { date: 'ASC' },
+            relations: { weapon: true },
+        });
+        return strikes;
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} strike`;
+    async findOne(id: string) {
+        const strike = await this.strikesRepository.findOneBy({ id });
+        return strike;
     }
 
-    update(id: number, updateStrikeDto: UpdateStrikeDto) {
-        return `This action updates a #${id} strike`;
+    async update(id: string, dto: UpdateStrikeDto) {
+        const new_strike = this.strikesRepository.create(dto);
+        const updated_strike = await this.strikesRepository.update(
+            { id },
+            new_strike,
+        );
+        return updated_strike;
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} strike`;
+    async remove(id: string) {
+        const res = await this.strikesRepository.delete({ id });
+        return res;
     }
 }

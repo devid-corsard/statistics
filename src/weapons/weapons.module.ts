@@ -8,5 +8,6 @@ import { weaponProviders } from './weapons.providers';
     imports: [DatabaseModule],
     controllers: [WeaponsController],
     providers: [...weaponProviders, WeaponsService],
+    exports: [WeaponsService],
 })
 export class WeaponsModule {}

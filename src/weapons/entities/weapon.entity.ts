@@ -12,12 +12,6 @@ export class Weapon {
     @Column({ type: 'int', nullable: true })
     range_km: number;
 
-    @OneToMany(() => Strike, (s) => s.launched_count)
-    launched_all: number[];
-
-    @OneToMany(() => Strike, (s) => s.intercepted)
-    intercepted_all: number[];
-
-    @OneToMany(() => Strike, (s) => s.date)
-    dates: string[];
+    @OneToMany(() => Strike, (s) => s.weapon)
+    strikes: Strike[];
 }

@@ -23,6 +23,7 @@ export class WeaponsService {
             order: {
                 name: 'ASC',
             },
+            relations: { strikes: true },
         });
     }
 
